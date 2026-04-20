@@ -8,16 +8,31 @@
 </head>
 <body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
 
-    <nav class="bg-slate-900 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-blue-500">tus<span class="text-white">horas</span></a>
-            <ul class="flex space-x-6">
-                <li><a href="#" class="hover:text-blue-400 transition">Inicio</a></li>
-                <li><a href="#" class="hover:text-blue-400 transition">Servicios</a></li>
-                <li><a href="#" class="hover:text-blue-400 transition">Contacto</a></li>
-            </ul>
+   <nav class="bg-white shadow-sm border-b border-gray-100 mb-8">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+        
+        <a href="{% url 'dashboard' %}" class="text-xl font-bold text-slate-800 tracking-tight">
+            Gestor<span class="text-emerald-600">Honorarios</span>
+        </a>
+
+        <div>
+            {% if user.is_authenticated %}
+                <span class="text-sm text-gray-500 mr-4 hidden md:inline-block">
+                    Hola, <span class="font-semibold text-slate-700">{{ user.username }}</span>
+                </span>
+                
+                <form action="{% url 'logout' %}" method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="text-sm font-medium text-red-500 hover:text-red-700 transition">
+                        Cerrar Sesión
+                    </button>
+                </form>
+            {% else %}
+                {% endif %}
         </div>
-    </nav>
+        
+    </div>
+</nav>
 
     <main class="flex-grow container mx-auto p-6">
         {% block content %}
