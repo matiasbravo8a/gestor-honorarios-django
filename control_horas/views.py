@@ -51,3 +51,6 @@ def dashboard(request):
         'form': form,
     }
     return render(request, 'control_horas/dashboard.html', contexto)
+@login_required
+def perfil(request):
+    return render(request, 'control_horas/perfil.html')

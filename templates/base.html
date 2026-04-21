@@ -18,7 +18,7 @@
         <div>
             {% if user.is_authenticated %}
                 <span class="text-sm text-gray-500 mr-4 hidden md:inline-block">
-                    Hola, <span class="font-semibold text-slate-700">{{ user.username }}</span>
+                    Hola, <a href="{% url 'perfil' %}" class="font-semibold text-emerald-600 hover:text-emerald-700 hover:underline transition">{{ user.username }}</a>
                 </span>
                 
                 <form action="{% url 'logout' %}" method="post" class="inline">

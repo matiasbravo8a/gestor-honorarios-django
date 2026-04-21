@@ -9,9 +9,11 @@
         <p class="text-gray-500">Aquí tienes el detalle de tus horas y ganancias actuales.</p>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-8">
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-8">
         <form method="POST" class="flex flex-col md:flex-row gap-4 items-end">
-            {% csrf_token %} <div class="w-full md:w-1/3">
+            {% csrf_token %}
+            
+            <div class="w-full md:w-1/3">
                 <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Lugar de Trabajo</label>
                 {{ form.establecimiento }}
             </div>
@@ -21,9 +23,15 @@
                 {{ form.fecha }}
             </div>
             
-            <div class="w-full md:w-1/4">
-                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Horas</label>
-                {{ form.horas_trabajadas }}
+            <div class="w-full md:w-1/4 flex gap-4">
+                <div class="w-2/3">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Horas</label>
+                    {{ form.horas_trabajadas }}
+                </div>
+                <div class="w-1/3 flex flex-col items-center justify-center pt-5">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase text-center mb-1 leading-none">Festivo</label>
+                    {{ form.es_festivo }}
+                </div>
             </div>
             
             <div class="w-full md:w-auto flex-grow">
