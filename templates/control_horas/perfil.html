@@ -1,29 +1,81 @@
 {% extends 'base.html' %}
 
-{% block title %}Mi Perfil{% endblock %}
+{% block title %}Gestión de Contratos{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto mt-8">
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="bg-slate-800 px-8 py-6 text-white flex items-center gap-4">
-            <div class="h-16 w-16 bg-emerald-500 rounded-full flex items-center justify-center text-2xl font-bold uppercase shadow-inner">
-                {{ user.username.0 }} </div>
-            <div>
-                <h2 class="text-2xl font-bold">{{ user.username }}</h2>
-                <p class="text-slate-300 text-sm">Miembro desde: {{ user.date_joined|date:"F Y" }}</p>
+<div class="max-w-4xl mx-auto mt-6 px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center">
+                <div class="h-20 w-20 bg-slate-800 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+                    {{ user.username.0|upper }}
+                </div>
+                <h2 class="text-xl font-bold text-slate-800">{{ user.username }}</h2>
+                <p class="text-gray-500 text-sm mb-6">{{ user.email|default:"Sin correo registrado" }}</p>
+                
+                <a href="{% url 'cambiar_password' %}" class="block w-full py-2 px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition">
+                    Seguridad y Clave
+                </a>
             </div>
         </div>
-        
-        <div class="p-8">
-            <h3 class="text-lg font-semibold text-slate-800 border-b pb-2 mb-4">Seguridad y Acceso</h3>
-            <div class="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-100">
-                <div>
-                    <p class="font-medium text-gray-700">Contraseña</p>
-                    <p class="text-sm text-gray-500">Te recomendamos cambiarla regularmente.</p>
+
+        <div class="lg:col-span-2 space-y-6">
+            
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="p-1.5 bg-emerald-100 text-emerald-600 rounded-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    </span>
+                    Nuevo Lugar de Trabajo
+                </h3>
+                
+                <form method="POST" class="space-y-4">
+                    {% csrf_token %}
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Nombre del Establecimiento</label>
+                        {{ form.nombre }}
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tarifa Normal</label>
+                            {{ form.valor_hora }}
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tarifa Festivo</label>
+                            {{ form.valor_hora_festivo }}
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-emerald-100">
+                        Inscribir Establecimiento
+                    </button>
+                </form>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-50">
+                    <h3 class="text-lg font-bold text-slate-800">Tus Contratos Activos</h3>
                 </div>
-                <a href="{% url 'cambiar_password' %}" class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 py-2 px-4 rounded-md text-sm font-medium transition shadow-sm">
-                    Cambiar Contraseña
-                </a>
+                <div class="divide-y divide-gray-100">
+                    {% for lugar in mis_lugares %}
+                    <div class="p-6 flex justify-between items-center hover:bg-gray-50 transition">
+                        <div>
+                            <p class="font-bold text-slate-700">{{ lugar.nombre }}</p>
+                            <p class="text-xs text-gray-500 italic">Precios configurados para cálculo automático</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-semibold text-slate-800">${{ lugar.valor_hora }}/hr <span class="text-xs text-gray-400 font-normal">Normal</span></p>
+                            {% if lugar.valor_hora_festivo %}
+                            <p class="text-sm font-semibold text-emerald-600">${{ lugar.valor_hora_festivo }}/hr <span class="text-xs text-gray-400 font-normal">Festivo</span></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="p-10 text-center">
+                        <p class="text-gray-400 italic">No has agregado lugares aún. Inscribe el primero arriba.</p>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

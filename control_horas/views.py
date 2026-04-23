@@ -3,8 +3,14 @@ from django.utils.timezone import now
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .models import RegistroTurno
-from .forms import RegistroTurnoForm
+
+# Agrupamos los modelos en una sola línea
+from .models import RegistroTurno, Establecimiento
+
+# Agrupamos los formularios en una sola línea (¡Aquí está la corrección!)
+from .forms import EstablecimientoForm, RegistroTurnoForm
+
+# Vista para crear una cuenta nueva...
 
 # Vista para crear una cuenta nueva
 def registro(request):
@@ -53,4 +59,24 @@ def dashboard(request):
     return render(request, 'control_horas/dashboard.html', contexto)
 @login_required
 def perfil(request):
-    return render(request, 'control_horas/perfil.html')
+    if request.method == 'POST':
+        form = EstablecimientoForm(request.POST)
+        if form.is_valid():
+            # Creamos el objeto pero no lo guardamos aún
+            lugar = form.save(commit=False)
+            # Le asignamos el usuario que está logueado actualmente
+            lugar.profesional = request.user
+            lugar.save()
+            return redirect('perfil')
+    else:
+        form = EstablecimientoForm()
+
+    # Traemos solo los lugares creados por este usuario
+    mis_lugares = Establecimiento.objects.filter(profesional=request.user).order_by('nombre')
+    
+    contexto = {
+        'form': form,
+        'mis_lugares': mis_lugares,
+    }
+    
+    return render(request, 'control_horas/perfil.html', contexto)
