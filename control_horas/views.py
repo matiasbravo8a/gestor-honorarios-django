@@ -34,25 +34,29 @@ def dashboard(request):
             form.save()
             return redirect('dashboard')
     else:
-        # Filtramos para que en el selector solo salgan los lugares del usuario actual
         form = RegistroTurnoForm()
         form.fields['establecimiento'].queryset = form.fields['establecimiento'].queryset.filter(profesional=request.user)
 
     hoy = now()
     
-    # ¡Clave! Filtramos por mes, año Y por el usuario logueado (request.user)
     turnos_del_mes = RegistroTurno.objects.filter(
         establecimiento__profesional=request.user,
         fecha__year=hoy.year,
         fecha__month=hoy.month
     ).order_by('-fecha')
     
-    total_dinero = sum(turno.total_ganado for turno in turnos_del_mes)
+    # --- NUEVO DESGLOSE INTELIGENTE ---
+    total_honorarios = sum(turno.total_ganado for turno in turnos_del_mes if turno.establecimiento.tipo_trabajo == 'HONORARIOS')
+    total_extras = sum(turno.total_ganado for turno in turnos_del_mes if turno.establecimiento.tipo_trabajo == 'EXTRAS')
+    
+    total_dinero = total_honorarios + total_extras
     total_horas = sum(turno.horas_trabajadas for turno in turnos_del_mes)
     
     contexto = {
         'turnos': turnos_del_mes,
         'total_dinero': total_dinero,
+        'total_honorarios': total_honorarios, # Pasamos el subtotal de honorarios
+        'total_extras': total_extras,         # Pasamos el subtotal de extras
         'total_horas': total_horas,
         'form': form,
     }

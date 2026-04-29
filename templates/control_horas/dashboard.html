@@ -41,27 +41,28 @@
             </div>
         </form>
     </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center border-l-4 border-emerald-500">
-            <div class="p-3 bg-emerald-100 rounded-full text-emerald-600 mr-4">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            </div>
-            <div>
-                <p class="text-sm font-medium text-gray-500 uppercase">Total Ganado</p>
-                <p class="text-3xl font-bold text-slate-800">${{ total_dinero|floatformat:"0" }}</p>
-            </div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        
+        <div class="bg-slate-800 rounded-xl p-5 text-white shadow-sm flex flex-col justify-center">
+            <h3 class="text-slate-400 text-[11px] font-bold uppercase tracking-wider mb-1">Ingreso Mensual Estimado</h3>
+            <p class="text-3xl font-bold">${{ total_dinero|default:"0" }}</p>
+        </div>
+        
+        <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm flex flex-col justify-center">
+            <h3 class="text-gray-400 text-[11px] font-bold uppercase tracking-wider mb-1">Por Honorarios</h3>
+            <p class="text-xl font-bold text-slate-700">${{ total_honorarios|default:"0" }}</p>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center border-l-4 border-blue-500">
-            <div class="p-3 bg-blue-100 rounded-full text-blue-600 mr-4">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            </div>
-            <div>
-                <p class="text-sm font-medium text-gray-500 uppercase">Horas Trabajadas</p>
-                <p class="text-3xl font-bold text-slate-800">{{ total_horas }} <span class="text-lg font-normal text-gray-500">hrs</span></p>
-            </div>
+        <div class="bg-emerald-50/50 rounded-xl p-5 border border-emerald-100 shadow-sm flex flex-col justify-center">
+            <h3 class="text-emerald-600/70 text-[11px] font-bold uppercase tracking-wider mb-1">Por Horas Extras</h3>
+            <p class="text-xl font-bold text-emerald-600">${{ total_extras|default:"0" }}</p>
         </div>
+
+        <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm flex flex-col justify-center">
+            <h3 class="text-gray-400 text-[11px] font-bold uppercase tracking-wider mb-1">Tiempo Invertido</h3>
+            <p class="text-xl font-bold text-slate-700">{{ total_horas|default:"0" }} <span class="text-sm font-normal text-gray-400">hrs</span></p>
+        </div>
+        
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">

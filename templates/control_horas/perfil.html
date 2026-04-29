@@ -30,26 +30,39 @@
                     Nuevo Lugar de Trabajo
                 </h3>
                 
-                <form method="POST" class="space-y-4">
-                    {% csrf_token %}
-                    <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Nombre del Establecimiento</label>
-                        {{ form.nombre }}
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tarifa Normal</label>
-                            {{ form.valor_hora }}
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tarifa Festivo</label>
-                            {{ form.valor_hora_festivo }}
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-emerald-100">
-                        Inscribir Establecimiento
-                    </button>
-                </form>
+           <form method="POST" class="space-y-4">
+    {% csrf_token %}
+    
+    <div>
+        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Nombre del Establecimiento</label>
+        {{ form.nombre }}
+    </div>
+
+    <div>
+        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tipo de Giro</label>
+        {{ form.tipo_trabajo }}
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tarifa Normal</label>
+            {{ form.valor_hora }}
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tarifa Festivo</label>
+            {{ form.valor_hora_festivo }}
+        </div>
+    </div>
+    
+    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-emerald-100">
+        Inscribir Establecimiento
+    </button>
+</form>
+                {% if form.errors %}
+    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+        <p class="text-red-700 font-bold">Errores en el formulario:</p>
+        {{ form.errors }}
+    </div>
+{% endif %}
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">

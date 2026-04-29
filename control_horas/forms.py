@@ -18,10 +18,10 @@ class RegistroTurnoForm(forms.ModelForm):
 class EstablecimientoForm(forms.ModelForm):
     class Meta:
         model = Establecimiento
-        # NUEVO: Agregamos 'valor_hora_festivo'
-        fields = ['nombre', 'valor_hora', 'valor_hora_festivo']
+        fields = ['nombre', 'tipo_trabajo', 'valor_hora', 'valor_hora_festivo'] # <-- Asegúrate que esté aquí
         widgets = {
-            'nombre': forms.TextInput(attrs={'class': 'w-full p-2 border rounded-md', 'placeholder': 'Ej: Hospital Collipulli'}),
-            'valor_hora': forms.NumberInput(attrs={'class': 'w-full p-2 border rounded-md', 'placeholder': 'Ej: 15000'}),
-            'valor_hora_festivo': forms.NumberInput(attrs={'class': 'w-full p-2 border rounded-md', 'placeholder': 'Ej: 20000 (Opcional)'}),
+            'nombre': forms.TextInput(attrs={'class': 'w-full p-2.5 border border-gray-300 rounded-lg text-sm'}),
+            'tipo_trabajo': forms.Select(attrs={'class': 'w-full p-2.5 border border-gray-300 rounded-lg text-sm bg-white'}),
+            'valor_hora': forms.NumberInput(attrs={'class': 'w-full p-2.5 border border-gray-300 rounded-lg text-sm'}),
+            'valor_hora_festivo': forms.NumberInput(attrs={'class': 'w-full p-2.5 border border-gray-300 rounded-lg text-sm'}),
         }
