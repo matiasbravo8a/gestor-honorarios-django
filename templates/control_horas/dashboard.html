@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block title %}Panel de Honorarios{% endblock %}
 
@@ -45,22 +46,22 @@
         
         <div class="bg-slate-800 rounded-xl p-5 text-white shadow-sm flex flex-col justify-center">
             <h3 class="text-slate-400 text-[11px] font-bold uppercase tracking-wider mb-1">Ingreso Mensual Estimado</h3>
-            <p class="text-3xl font-bold">${{ total_dinero|default:"0" }}</p>
+            <p class="text-3xl font-bold">${{ total_dinero|default:"0"|floatformat:"0"|intcomma }}</p>
         </div>
         
         <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm flex flex-col justify-center">
             <h3 class="text-gray-400 text-[11px] font-bold uppercase tracking-wider mb-1">Por Honorarios</h3>
-            <p class="text-xl font-bold text-slate-700">${{ total_honorarios|default:"0" }}</p>
+            <p class="text-xl font-bold text-slate-700">${{ total_honorarios|default:"0"|floatformat:"0"|intcomma }}</p>
         </div>
 
         <div class="bg-emerald-50/50 rounded-xl p-5 border border-emerald-100 shadow-sm flex flex-col justify-center">
             <h3 class="text-emerald-600/70 text-[11px] font-bold uppercase tracking-wider mb-1">Por Horas Extras</h3>
-            <p class="text-xl font-bold text-emerald-600">${{ total_extras|default:"0" }}</p>
+            <p class="text-xl font-bold text-emerald-600">${{ total_extras|default:"0"|floatformat:"0"|intcomma }}</p>
         </div>
 
         <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm flex flex-col justify-center">
             <h3 class="text-gray-400 text-[11px] font-bold uppercase tracking-wider mb-1">Tiempo Invertido</h3>
-            <p class="text-xl font-bold text-slate-700">{{ total_horas|default:"0" }} <span class="text-sm font-normal text-gray-400">hrs</span></p>
+            <p class="text-xl font-bold text-slate-700">{{ total_horas|default:"0"|floatformat:"0"|intcomma }} <span class="text-sm font-normal text-gray-400">hrs</span></p>
         </div>
         
     </div>
