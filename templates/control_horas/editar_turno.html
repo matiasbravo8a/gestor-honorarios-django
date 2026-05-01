@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Turno{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto mt-10 bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+    <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+        Editar Turno
+    </h2>
+    
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Lugar de Trabajo</label>
+            {{ form.establecimiento }}
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Fecha</label>
+                {{ form.fecha }}
+            </div>
+            <div class="flex gap-4">
+                <div class="w-2/3">
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Horas</label>
+                    {{ form.horas_trabajadas }}
+                </div>
+                <div class="w-1/3 flex flex-col items-center justify-center pt-5">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase text-center mb-1 leading-none">Festivo</label>
+                    {{ form.es_festivo }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-8 flex gap-3">
+            <a href="{% url 'dashboard' %}" class="w-1/3 text-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-4 rounded-lg transition">Cancelar</a>
+            <button type="submit" class="w-2/3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-md">Guardar Cambios</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

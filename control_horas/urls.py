@@ -2,6 +2,7 @@ from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 from . import views
 
+
 urlpatterns = [
 
     # Esto conecta la ruta vacía ('') con nuestro panel de resumen
@@ -12,4 +13,7 @@ urlpatterns = [
     
     path('perfil/', views.perfil, name='perfil'),
     path('perfil/password/', auth_views.PasswordChangeView.as_view(template_name='control_horas/cambiar_password.html', success_url=reverse_lazy('perfil')), name='cambiar_password'),
+    path('editar/<int:turno_id>/', views.editar_turno, name='editar_turno'),
+    path('eliminar/<int:turno_id>/', views.eliminar_turno, name='eliminar_turno'),
 ]
+

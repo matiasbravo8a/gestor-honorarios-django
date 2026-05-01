@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import now
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -84,3 +84,32 @@ def perfil(request):
     }
     
     return render(request, 'control_horas/perfil.html', contexto)
+# Vista para Editar Turno
+@login_required
+def editar_turno(request, turno_id):
+    # Buscamos el turno, asegurándonos de que pertenezca al usuario actual
+    turno = get_object_or_404(RegistroTurno, id=turno_id, establecimiento__profesional=request.user)
+    
+    if request.method == 'POST':
+        # Le pasamos la instancia (el turno viejo) para que lo sobrescriba
+        form = RegistroTurnoForm(request.POST, instance=turno)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        # Si recién entra a la página, mostramos el formulario pre-llenado
+        form = RegistroTurnoForm(instance=turno)
+        form.fields['establecimiento'].queryset = form.fields['establecimiento'].queryset.filter(profesional=request.user)
+        
+    return render(request, 'control_horas/editar_turno.html', {'form': form, 'turno': turno})
+
+# Vista para Eliminar Turno
+@login_required
+def eliminar_turno(request, turno_id):
+    turno = get_object_or_404(RegistroTurno, id=turno_id, establecimiento__profesional=request.user)
+    
+    if request.method == 'POST':
+        turno.delete()
+        return redirect('dashboard')
+        
+    return render(request, 'control_horas/eliminar_turno.html', {'turno': turno})
